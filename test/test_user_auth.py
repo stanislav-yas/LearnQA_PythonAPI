@@ -2,9 +2,9 @@ import requests
 import pytest
 
 from lib.base_case import BaseCase
+from lib.assertions import Assertions
 
 class TestUserAuth(BaseCase):
-
     #  Conditions for test_negative_auth_check
     conditions = [
         ("no_cookie"),
@@ -23,6 +23,7 @@ class TestUserAuth(BaseCase):
         self.user_id_from_auth_method = self.get_json_value(response1, "user_id")  
 
     def test_auth_user(self):
+
         response2 = requests.get(
             "https://playground.learnqa.ru/api/user/auth",
             headers={
@@ -33,9 +34,12 @@ class TestUserAuth(BaseCase):
             }
         )
 
-        user_id_from_check_method = self.get_json_value(response2, "user_id")
-
-        assert self.user_id_from_auth_method == user_id_from_check_method, "User id from auth method is not equal to user is from check method"
+        Assertions.assert_json_value_by_name(
+            response2, 
+            "user_id", 
+            self.user_id_from_auth_method, 
+            "User id from auth method is not equal to user id from check method"
+        )
 
     @pytest.mark.parametrize('condition', conditions)
     def test_negative_auth_check(self, condition):
@@ -57,6 +61,9 @@ class TestUserAuth(BaseCase):
         else:
             pytest.fail(f"Unknown condition: {condition}")
 
-        user_id_from_check_method = self.get_json_value(response2, "user_id")
-
-        assert user_id_from_check_method == 0, f"User was authorized with condition {condition}"
+        Assertions.assert_json_value_by_name(
+            response2, 
+            "user_id", 
+            0, 
+            f"User was authorized with condition {condition}"
+        )
