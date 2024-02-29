@@ -14,12 +14,29 @@ class Assertions:
         assert response_as_dict[name] == expected_value, error_message
 
     @staticmethod
-    def assert_json_has_key(response: Response, key_name):
+    def assert_json_has_key(response: Response, key):
         try:
             response_as_dict = response.json()
         except json.JSONDecodeError:
             assert False, f"Response is not in JSON Format: '{response.text}'"
-        assert key_name in response_as_dict, f"Response JSON doesn't contain a key '{key_name}'"
+        assert key in response_as_dict, f"Response JSON doesn't contain a key '{key}'"
+
+    @staticmethod
+    def assert_json_has_keys(response: Response, keys):
+        try:
+            response_as_dict = response.json()
+        except json.JSONDecodeError:
+            assert False, f"Response is not JSON Format: '{response.text}'"
+        for key in keys:
+            assert key in response_as_dict, f"Response JSON doesn't contain a key '{key}'"
+
+    @staticmethod
+    def assert_json_has_not_key(response: Response, key):
+        try:
+            response_as_dict = response.json()
+        except json.JSONDecodeError:
+            assert False, f"Response is not JSON Format: '{response.text}'"
+        assert key not in response_as_dict, f"Response JSON contain a key '{key}'"        
 
     @staticmethod
     def assert_status_code(response: Response, expected_status_code):
