@@ -1,3 +1,4 @@
+from datetime import datetime
 from requests import Response
 from requests.exceptions import JSONDecodeError
 import pytest
@@ -19,3 +20,17 @@ class BaseCase:
 
         assert name in response_as_dict, f"Response JSON doesn't contain a key '{name}'"
         return response_as_dict[name]
+
+    def prepare_registation_data(self, email=None):
+        if email is None:
+            email_base_part = "learnqa"
+            domain = "example.com"
+            email_random_part = datetime.now().strftime("%m%d%Y%H%M%S")
+            email = f"{email_base_part}{email_random_part}@{domain}"
+        return {
+            'password': '123',
+            'username': 'learnqa',
+            'firstName': 'learnqa',
+            'lastName': 'learnqa',
+            'email': email           
+        } 
