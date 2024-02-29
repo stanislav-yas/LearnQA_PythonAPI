@@ -1,4 +1,5 @@
 import requests
+from lib.logger import Logger
 
 class MyRequests():
     def get(url: str, data: dict=None, headers: dict=None, cookies: dict=None):
@@ -16,6 +17,9 @@ class MyRequests():
     @staticmethod
     def _request(method: str, url: str, data: dict={}, headers: dict={}, cookies: dict={}):
         url = f"https://playground.learnqa.ru/api{url}"
+
+        Logger.add_request(method, url, data, headers, cookies)
+
         if method == 'GET':
             response = requests.get(url, params=data, headers=headers, cookies=cookies)
         elif method == 'POST':
@@ -26,5 +30,7 @@ class MyRequests():
             response = requests.delete(url, data=data, headers=headers, cookies=cookies)
         else:
             raise Exception(f"Bad HTTP method '{method}' was received")
+        
+        Logger.add_response(response)
 
         return response
