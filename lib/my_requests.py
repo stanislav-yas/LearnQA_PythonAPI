@@ -1,18 +1,23 @@
 import requests
+import allure
 from lib.logger import Logger
 
 class MyRequests():
     def get(url: str, data: dict=None, headers: dict=None, cookies: dict=None):
-        return MyRequests._request('GET', url=url, data=data, headers=headers, cookies=cookies)
+        with allure.step(f"GET request to URL '{url}'"):
+            return MyRequests._request('GET', url=url, data=data, headers=headers, cookies=cookies)
 
     def post(url: str, data: dict=None, headers: dict=None, cookies: dict=None):
-        return MyRequests._request('POST', url=url, data=data, headers=headers, cookies=cookies)
+         with allure.step(f"POST request to URL '{url}'"):
+            return MyRequests._request('POST', url=url, data=data, headers=headers, cookies=cookies)
 
     def put(url: str, data: dict=None, headers: dict=None, cookies: dict=None):
-        return MyRequests._request('PUT', url=url, data=data, headers=headers, cookies=cookies)   
+         with allure.step(f"PUT request to URL '{url}'"):
+            return MyRequests._request('PUT', url=url, data=data, headers=headers, cookies=cookies)   
 
     def delete(url: str, data: dict=None, headers: dict=None, cookies: dict=None):
-        return MyRequests._request('DELETE', url=url, data=data, headers=headers, cookies=cookies)
+        with allure.step(f"DELETE request to URL '{url}'"):
+            return MyRequests._request('DELETE', url=url, data=data, headers=headers, cookies=cookies)
 
     @staticmethod
     def _request(method: str, url: str, data: dict={}, headers: dict={}, cookies: dict={}):
