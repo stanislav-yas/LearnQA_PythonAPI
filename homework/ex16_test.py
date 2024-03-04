@@ -22,7 +22,7 @@ class TestUserGet(BaseCase):
 
         response2 = MyRequests.post("/user/login", data=auth_data)
 
-        Assertions.assert_status_code(response1, 200)
+        Assertions.assert_status_code(response2, 200)
 
         auth_sid = self.get_cookie(response2, "auth_sid")
         token = self.get_header(response2, "x-csrf-token")
@@ -35,6 +35,7 @@ class TestUserGet(BaseCase):
             cookies={"auth_sid": auth_sid}
         )
 
+        Assertions.assert_status_code(response3, 200)
         Assertions.assert_json_has_key(response3, "username")
         Assertions.assert_json_has_not_key(response3, "email")
         Assertions.assert_json_has_not_key(response3, "firstName")
