@@ -32,29 +32,29 @@ class TestUserEdit(BaseCase):
     @allure.description("Попытаемся изменить данные пользователя, будучи авторизованными другим пользователем")
     def test_edit_auth_another_user(self):
         # Login User1
-        response2 = MyRequests.post(
+        response1 = MyRequests.post(
             "/user/login", 
             data = {
                 'email': self.user_email,
                 'password': self.user_password
             }
         )
-        Assertions.assert_status_code(response2, 200)
+        Assertions.assert_status_code(response1, 200)
 
-        auth_sid = self.get_cookie(response2, "auth_sid")
-        token = self.get_header(response2, "x-csrf-token")
+        auth_sid = self.get_cookie(response1, "auth_sid")
+        token = self.get_header(response1, "x-csrf-token")
 
         # Creation User2
         user2_data = self.prepare_registation_data()
-        response1 = MyRequests.post("/user/", data=user2_data)
+        response2 = MyRequests.post("/user/", data=user2_data)
 
-        Assertions.assert_status_code(response1, 200)
-        Assertions.assert_json_has_key(response1, 'id')
+        Assertions.assert_status_code(response2, 200)
+        Assertions.assert_json_has_key(response2, 'id')
 
         user2_email = user2_data['email']
         user2_password = user2_data['password']
         user2_firstName = user2_data['firstName']
-        user2_id = self.get_json_value(response1, 'id')
+        user2_id = self.get_json_value(response2, 'id')
 
         # Changing User2 data
         user2_new_name = "Changed Name"
