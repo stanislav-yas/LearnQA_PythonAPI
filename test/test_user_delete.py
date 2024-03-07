@@ -81,9 +81,9 @@ class TestUserDelete(BaseCase):
             Assertions.assert_status_code(response3, 404)
             assert response3.text == 'User not found', f"Unexpected response content: {response3.text}"
 
-    @allure.title("Another user deletion")
+    @allure.title("Authorized another user deletion")
     @allure.description("Попробовать удалить пользователя, будучи авторизованными другим пользователем")
-    @allure.label("Negative")
+    @allure.tag("Delete")
     def test_delete_user_auth_another_user(self):
 
         with allure.step("Login as user#1 (created in setup)"):
