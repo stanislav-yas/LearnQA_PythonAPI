@@ -1,2 +1,9 @@
-# LearnQA_PythonAPI
-Автоматизация тестирования REST API на Python
+# Автоматизация тестирования REST API на Python
+
+Онлайн тренинг "Автоматизация тестирования REST API на Python - 35" проводился с 7 февраля по 13 марта 2024.  
+
+С программой тренинга можно ознакомиться по адресу: https://software-testing.ru/edu/3-online/321-rest-api-python.  
+
+В ходе тренинга использовался популярный стек: ***Python, requests, pytest, Allure и Docker***.  
+
+Ссылка на сертификат об успешном окончании данного тренинга: https://cert.software-testing.ru/392320041947759185  
