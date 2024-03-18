@@ -42,7 +42,8 @@ class TestUserDelete(BaseCase):
             )
 
             Assertions.assert_status_code(response2, 400)
-            assert response2.text == 'Please, do not delete test users with ID 1, 2, 3, 4 or 5.', \
+            Assertions.assert_json_has_key(response2, 'error')
+            assert self.get_json_value(response2, 'error') == 'Please, do not delete test users with ID 1, 2, 3, 4 or 5.', \
                 f"Unexpected response content: {response2.text}"
 
     @allure.title("Authorized user deletion")

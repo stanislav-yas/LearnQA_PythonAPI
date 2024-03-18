@@ -72,7 +72,8 @@ class TestUserEdit(BaseCase):
             data={'firstName': new_firstName}
         )
         Assertions.assert_status_code(response, 400)
-        assert response.text == "Auth token not supplied", f"Unexpected response content {response.text}"
+        Assertions.assert_json_has_key(response, 'error')
+        assert self.get_json_value(response, 'error') == "Auth token not supplied", f"Unexpected response content {response.text}"
 
     @allure.title("Attempt authorized edition of another user info")
     @allure.description("Попытаемся изменить данные пользователя, будучи авторизованными другим пользователем")
@@ -161,7 +162,8 @@ class TestUserEdit(BaseCase):
                 data={"email": new_email}
             )
             Assertions.assert_status_code(response2, 400)
-            assert response2.text == 'Invalid email format', f"Unexpected response content: {response2.text}"
+            Assertions.assert_json_has_key(response2, 'error')
+            assert self.get_json_value(response2, 'error') == 'Invalid email format', f"Unexpected response content: {response2.text}"
 
     @allure.title("Attempt authorized change of user firstName by very short value")
     @allure.description("Попытаемся изменить firstName пользователя, будучи авторизованными тем же пользователем, \
@@ -187,5 +189,5 @@ class TestUserEdit(BaseCase):
                 data={"firstName": new_firstName}
             )
             Assertions.assert_status_code(response2, 400)
-            assert self.get_json_value(response2, 'error') == 'Too short value for field firstName', \
+            assert self.get_json_value(response2, 'error') == 'The value for field `firstName` is too short', \
                 f"Unexpected response content: {response2.text}"
